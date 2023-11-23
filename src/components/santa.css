@@ -17,7 +17,6 @@
 
 .jump {
   animation: jump 2s linear;
-}
 
 @keyframes jump {
    0% {
