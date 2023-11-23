@@ -12,11 +12,11 @@
   background-image: url("../assets/Santa-Pixel.png");
   background-size: 50px 50px;
   position: relative;
-  top: 150px;
+  top: 160px;
 }
 
 .jump {
-  animation: jump 0.4s linear;
+  animation: jump 0.2s linear;
 }
 
 @keyframes jump {
@@ -63,3 +63,8 @@
     left: 0px;
   }
 }
+
+.paused {
+  animation-play-state: paused;
+}
+
