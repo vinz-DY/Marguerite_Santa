@@ -5,12 +5,22 @@ function Santa() {
   const santaRef = useRef();
   const [cacti, setCacti] = useState([]);
   const [score, setScore] = useState(0);
+  
   const [isJumping, setIsJumping] = useState(false);
 
   const jump = () => {
     if (!!santaRef.current && !santaRef.current.classList.contains("jump")) {
       santaRef.current.classList.add("jump");
       setIsJumping(true); // Activer l'état de saut
+
+    }
+  };
+  // POUR JUMPER ET METTRE EN PAUSE
+  const handleKeyPress = (event) => {
+    if (event.key === "ArrowUp") {
+      jump();
+    } else if (event.key === " ") {
+      togglePause();
     }
   };
 
