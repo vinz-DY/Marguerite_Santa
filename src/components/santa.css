@@ -1,64 +1,72 @@
 .game {
-  width: 600px;
+  width: 100%;
   height: 225px;
   border: 1px solid black;
   margin: auto;
+  background-image: url("../assets/decor1.jpg");
 }
 
-#dino {
+#santa {
   width: 50px;
   height: 50px;
   background-image: url("../assets/Santa-Pixel.png");
   background-size: 50px 50px;
   position: relative;
-  top: 150px;
+  top: 142px;
 }
 
 .jump {
-  animation: jump 0.3s linear;
+  animation: jump 2s linear;
 }
 
 @keyframes jump {
-  0% {
-    top: 150px;
+   0% {
+    top: 100px;
   }
 
-  30% {
-    top: 130px;
+  20% {
+    top: 50px;
   }
 
-  50% {
-    top: 80px;
+  40% {
+    top: 10px;
   }
 
   80% {
-    top: 130px;
+    top: 20px;
   }
 
   100% {
-    top: 150px;
+    top: 100px;
   }
 }
 
-#cactus {
+.cactus {
   width: 20px;
   height: 40px;
-  position: relative;
-  top: 110px;
-  left: 580px;
-
-  background-image: url("../assets/Gift1.png");
+  position: fixed;
+  top: 180px; 
+  background-image: url("../assets/chimney.jpg");
   background-size: 20px 40px;
-
-  animation: block 1s infinite linear;
+  animation: move 8s linear;
 }
 
-@keyframes block {
+.gift {
+  width: 20px;
+  height: 20px;
+  position: fixed;
+  top: 200px;
+  background-image: url("../assets/Gift1.png");
+  background-size: 20px 20px;
+  animation: move 6s infinite linear;
+}
+
+@keyframes move {
   0% {
-    left: 580px;
+    left: 90%;
   }
 
   100% {
-    left: -5px;
+    left: 0;
   }
 }
