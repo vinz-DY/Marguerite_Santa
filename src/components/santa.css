@@ -17,6 +17,7 @@
 
 .jump {
   animation: jump 2s linear;
+}
 
 @keyframes jump {
    0% {
@@ -41,20 +42,22 @@
 }
 
 .cactus {
+  z-index:-2;
   width: 20px;
   height: 40px;
   position: fixed;
-  top: 180px; 
+  top: 200px; 
   background-image: url("../assets/chimney.jpg");
   background-size: 20px 40px;
   animation: move 8s linear;
 }
 
 .gift {
+  z-index:-2;
   width: 20px;
   height: 20px;
   position: fixed;
-  top: 200px;
+  top: 220px;
   background-image: url("../assets/Gift1.png");
   background-size: 20px 20px;
   animation: move 6s infinite linear;
