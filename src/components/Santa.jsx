@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./santa.css";
 
+import backgroundMusic from "../assets/All.mp3"; // Assurez-vous d'importer votre fichier audio correctement
+
 function Santa() {
   const santaRef = useRef();
-  const [cacti, setCacti] = useState([]);
+  const [chim, setchim] = useState([]);
   const [score, setScore] = useState(0);
-  
   const [isJumping, setIsJumping] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(new Audio(backgroundMusic));
+
 
   const jump = () => {
     if (!!santaRef.current && !santaRef.current.classList.contains("jump")) {
@@ -21,17 +24,30 @@ function Santa() {
   };
 
   const addObstacle = () => {
-    const isCactus = Math.random() < 0.5;
+    const ischimney = Math.random() < 0.5;
     const left = window.innerWidth;
 
     const newObstacle = {
       id: new Date().getTime(),
-      type: isCactus ? "cactus" : "gift",
+      type: ischimney ? "chimney" : "gift",
       animationDuration: Math.random() * 2 + 2,
       left: left,
     };
 
-    setCacti((prevObstacles) => [...prevObstacles, newObstacle]);
+    setchim((prevObstacles) => [...prevObstacles, newObstacle]);
+  };
+
+  const startGame = () => {
+    setIsPlaying(true);
+    audioRef.current.play(); // Démarrer la musique
+  };
+
+  const stopGame = () => {
+    setIsPlaying(false);
+    audioRef.current.pause(); // Arrêter la musique
+    audioRef.current.currentTime = 0; // Remettre la musique au début
+    setchim([]); // Réinitialiser la liste des obstacles
+    setScore(0); // Réinitialiser le score
   };
 
   const startGame = () => {
@@ -51,7 +67,8 @@ function Santa() {
       isAlive = setInterval(() => {
         const santaRect = santaRef.current.getBoundingClientRect();
 
-        setCacti((prevObstacles) => {
+        setchim((prevObstacles) => {
+
           if (!isPlaying) return prevObstacles;
 
           const newObstacles = [...prevObstacles];
@@ -66,7 +83,8 @@ function Santa() {
               santaRect.top + 10 < obstacleRect.bottom &&
               santaRect.bottom - 10 > obstacleRect.top
             ) {
-              if (obstacle.type === "cactus") {
+
+              if (obstacle.type === "chimney") {
                 alert("Game Over! Your Score : " + score);
                 setScore(0);
                 setIsPlaying(false);
@@ -109,7 +127,8 @@ function Santa() {
     <div className="game">
       Score : {score}
       <div id="santa" ref={santaRef} className={isJumping ? "jump" : ""}></div>
-      {cacti.map((obstacle) => (
+      {chim.map((obstacle) => (
+
         <div
           key={obstacle.id}
           className={obstacle.type}
@@ -133,3 +152,4 @@ function Santa() {
 }
 
 export default Santa;
+
