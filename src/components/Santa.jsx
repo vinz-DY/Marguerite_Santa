@@ -11,6 +11,7 @@ function Santa() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(new Audio(backgroundMusic));
 
+
   const jump = () => {
     if (!!santaRef.current && !santaRef.current.classList.contains("jump")) {
       santaRef.current.classList.add("jump");
@@ -49,6 +50,16 @@ function Santa() {
     setScore(0); // Réinitialiser le score
   };
 
+  const startGame = () => {
+    setIsPlaying(true);
+  };
+
+  const stopGame = () => {
+    setIsPlaying(false);
+    setCacti([]); // Réinitialiser la liste des obstacles
+    setScore(0); // Réinitialiser le score
+  };
+
   useEffect(() => {
     let isAlive;
 
@@ -57,6 +68,7 @@ function Santa() {
         const santaRect = santaRef.current.getBoundingClientRect();
 
         setchim((prevObstacles) => {
+
           if (!isPlaying) return prevObstacles;
 
           const newObstacles = [...prevObstacles];
@@ -71,6 +83,7 @@ function Santa() {
               santaRect.top + 10 < obstacleRect.bottom &&
               santaRect.bottom - 10 > obstacleRect.top
             ) {
+
               if (obstacle.type === "chimney") {
                 alert("Game Over! Your Score : " + score);
                 setScore(0);
@@ -115,6 +128,7 @@ function Santa() {
       Score : {score}
       <div id="santa" ref={santaRef} className={isJumping ? "jump" : ""}></div>
       {chim.map((obstacle) => (
+
         <div
           key={obstacle.id}
           className={obstacle.type}
