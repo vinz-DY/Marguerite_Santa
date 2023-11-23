@@ -5,49 +5,86 @@ function Santa() {
   const dinoRef = useRef();
   const cactusRef = useRef();
   const [score, setScore] = useState(0);
+  const [isGamePaused, setGamePaused] = useState(false);
 
   const jump = () => {
-    if (!!dinoRef.current && dinoRef.current.classList != "jump") {
+    if (
+      !isGamePaused &&
+      !!dinoRef.current &&
+      dinoRef.current.classList !== "jump"
+    ) {
       dinoRef.current.classList.add("jump");
-      setTimeout(function () {
+      setTimeout(() => {
         dinoRef.current.classList.remove("jump");
       }, 300);
     }
   };
+  // POUR JUMPER ET METTRE EN PAUSE
+  const handleKeyPress = (event) => {
+    if (event.key === "ArrowUp") {
+      jump();
+    } else if (event.key === " ") {
+      togglePause();
+    }
+  };
 
+  const togglePause = () => {
+    setGamePaused((prevIsGamePaused) => !prevIsGamePaused);
+  };
+  //
   useEffect(() => {
-    const isAlive = setInterval(function () {
-      // get current dino Y position
-      const dinoTop = parseInt(
-        getComputedStyle(dinoRef.current).getPropertyValue("top")
-      );
+    const isAlive = setInterval(() => {
+      if (!isGamePaused) {
+        const dinoTop = parseInt(
+          getComputedStyle(dinoRef.current).getPropertyValue("top")
+        );
+        let cactusLeft = parseInt(
+          getComputedStyle(cactusRef.current).getPropertyValue("left")
+        );
 
-      // get current cactus X position
-      let cactusLeft = parseInt(
-        getComputedStyle(cactusRef.current).getPropertyValue("left")
-      );
+        if (cactusLeft < 40 && cactusLeft > 0 && dinoTop >= 140) {
+          alert("Game Over! Your Score: " + score);
+          setScore(0);
+        } else {
+          setScore((prevScore) => prevScore + 1);
 
-      // detect collision
-      if (cactusLeft < 40 && cactusLeft > 0 && dinoTop >= 140) {
-        // collision
-        alert("Game Over! Your Score : " + score);
-        setScore(0);
-      } else {
-        setScore(score + 1);
+          // Mettre à jour la position du cactus uniquement si le jeu n'est pas en pause
+          if (!isGamePaused) {
+            cactusRef.current.style.left = cactusLeft - 1 + "px";
+          }
+        }
       }
     }, 10);
 
-    return () => clearInterval(isAlive);
-  });
+    return () => {
+      clearInterval(isAlive);
+    };
+  }, [isGamePaused, score]);
 
   useEffect(() => {
-    document.addEventListener("keydown", jump);
-    return () => document.removeEventListener("keydown", jump);
-  }, []);
+    const dino = dinoRef.current;
+    const cactus = cactusRef.current;
+
+    if (isGamePaused) {
+      dino.style.animationPlayState = "paused";
+      cactus.style.animationPlayState = "paused";
+    } else {
+      dino.style.animationPlayState = "running";
+      cactus.style.animationPlayState = "running";
+    }
+
+    document.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [isGamePaused]);
 
   return (
     <div className="game">
-      Score : {score}
+      <div>
+        Score: {score} | {isGamePaused ? "Paused" : "Playing"}
+      </div>
       <div id="dino" ref={dinoRef}></div>
       <div id="cactus" ref={cactusRef}></div>
     </div>
