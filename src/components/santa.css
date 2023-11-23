@@ -16,19 +16,28 @@
 }
 
 .jump {
-  animation: jump 0.4s linear;
+  animation: jump 2s linear;
 }
 
 @keyframes jump {
+<<<<<<< HEAD
   0% {
     top: 150px;
+=======
+   0% {
+    top: 100px;
+>>>>>>> b18fedcc39c2930e1779dafedf90d7ef5b8a0a0c
   }
 
-  30% {
-    top: 80px;
+  20% {
+    top: 50px;
   }
 
+<<<<<<< HEAD
   50% {
+=======
+  40% {
+>>>>>>> b18fedcc39c2930e1779dafedf90d7ef5b8a0a0c
     top: 10px;
   }
 
@@ -45,7 +54,11 @@
   width: 20px;
   height: 40px;
   position: fixed;
+<<<<<<< HEAD
   top: 180px; /* Ajustez cette valeur selon votre disposition souhaitée */
+=======
+  top: 180px; 
+>>>>>>> b18fedcc39c2930e1779dafedf90d7ef5b8a0a0c
   background-image: url("../assets/chimney.jpg");
   background-size: 20px 40px;
   animation: move 8s linear;
@@ -55,7 +68,11 @@
   width: 20px;
   height: 20px;
   position: fixed;
+<<<<<<< HEAD
   top: 200px; /* Ajustez cette valeur selon votre disposition souhaitée */
+=======
+  top: 200px;
+>>>>>>> b18fedcc39c2930e1779dafedf90d7ef5b8a0a0c
   background-image: url("../assets/Gift1.png");
   background-size: 20px 20px;
   animation: move 6s infinite linear;
@@ -63,7 +80,11 @@
 
 @keyframes move {
   0% {
+<<<<<<< HEAD
     left: 600px;
+=======
+    left: 90%;
+>>>>>>> b18fedcc39c2930e1779dafedf90d7ef5b8a0a0c
   }
 
   100% {
