@@ -1,8 +1,9 @@
 .game {
-  width: 600px;
+  width: 100%;
   height: 225px;
   border: 1px solid black;
   margin: auto;
+  background-image: url("../assets/decor1.jpg");
 }
 
 #dino {
@@ -15,28 +16,28 @@
 }
 
 .jump {
-  animation: jump 0.3s linear;
+  animation: jump 0.4s linear;
 }
 
 @keyframes jump {
   0% {
-    top: 150px;
+    top: 100px;
   }
 
   30% {
-    top: 130px;
-  }
-
-  50% {
     top: 80px;
   }
 
+  50% {
+    top: 60px;
+  }
+
   80% {
-    top: 130px;
+    top: 80px;
   }
 
   100% {
-    top: 150px;
+    top: 100px;
   }
 }
 
@@ -44,18 +45,18 @@
   width: 20px;
   height: 40px;
   position: relative;
-  top: 110px;
-  left: 580px;
+  top: 102px;
+  left: 100%; 
 
-  background-image: url("../assets/Gift1.png");
+  background-image: url("../assets/chimney.jpg");
   background-size: 20px 40px;
-
-  animation: block 1s infinite linear;
+ 
+  animation: block 6s infinite linear;
 }
 
 @keyframes block {
   0% {
-    left: 580px;
+    left:100%;
   }
 
   100% {

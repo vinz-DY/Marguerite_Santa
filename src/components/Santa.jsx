@@ -28,7 +28,7 @@ function Santa() {
       );
 
       // detect collision
-      if (cactusLeft < 40 && cactusLeft > 0 && dinoTop >= 140) {
+      if (cactusLeft < 30 && cactusLeft > 0 && dinoTop >= 150) {
         // collision
         alert("Game Over! Your Score : " + score);
         setScore(0);
