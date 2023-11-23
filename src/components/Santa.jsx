@@ -3,22 +3,16 @@ import "./santa.css";
 
 function Santa() {
   const santaRef = useRef();
-  const cactusRef = useRef();
+  const [cacti, setCacti] = useState([]);
   const [score, setScore] = useState(0);
-  const [isGamePaused, setGamePaused] = useState(false);
+  
+  const [isJumping, setIsJumping] = useState(false);
 
   const jump = () => {
+    if (!!santaRef.current && !santaRef.current.classList.contains("jump")) {
+      santaRef.current.classList.add("jump");
+      setIsJumping(true); // Activer l'état de saut
 
-    if (
-      !isGamePaused &&
-      !!dinoRef.current &&
-      dinoRef.current.classList !== "jump"
-    ) {
-      dinoRef.current.classList.add("jump");
-      setTimeout(() => {
-        dinoRef.current.classList.remove("jump");
-
-      }, 300);
     }
   };
   // POUR JUMPER ET METTRE EN PAUSE
@@ -30,65 +24,110 @@ function Santa() {
     }
   };
 
-  const togglePause = () => {
-    setGamePaused((prevIsGamePaused) => !prevIsGamePaused);
+  const endJump = () => {
+    setIsJumping(false); // Désactiver l'état de saut
   };
-  //
+
+  const addObstacle = () => {
+    const isCactus = Math.random() < 0.5; // 50% chance of being a cactus
+    const left = window.innerWidth; // Initial position
+
+    const newObstacle = {
+      id: new Date().getTime(),
+      type: isCactus ? "cactus" : "gift",
+      animationDuration: Math.random() * 2 + 2,
+      left: left,
+    };
+
+    setCacti((prevObstacles) => [...prevObstacles, newObstacle]);
+  };
+
   useEffect(() => {
     const isAlive = setInterval(() => {
-      if (!isGamePaused) {
-        const dinoTop = parseInt(
-          getComputedStyle(dinoRef.current).getPropertyValue("top")
-        );
-        let cactusLeft = parseInt(
-          getComputedStyle(cactusRef.current).getPropertyValue("left")
-        );
+      // get current santa Y position
+      const santaRect = santaRef.current.getBoundingClientRect();
 
-        if (cactusLeft < 40 && cactusLeft > 0 && dinoTop >= 140) {
-          alert("Game Over! Your Score: " + score);
-          setScore(0);
-        } else {
-          setScore((prevScore) => prevScore + 1);
+      // Move obstacles
+      setCacti((prevObstacles) =>
+        prevObstacles.map((obstacle) => ({
+          ...obstacle,
+          left: obstacle.left - 2,
+        }))
+      );
 
-          // Mettre à jour la position du cactus uniquement si le jeu n'est pas en pause
-          if (!isGamePaused) {
-            cactusRef.current.style.left = cactusLeft - 1 + "px";
+      // detect collision
+      setCacti((prevObstacles) => {
+        const newObstacles = [...prevObstacles];
+
+        for (let i = 0; i < newObstacles.length; i++) {
+          const obstacle = newObstacles[i];
+          const obstacleRect = obstacle.ref.getBoundingClientRect();
+
+          if (
+            santaRect.left +10 < obstacleRect.right &&
+            santaRect.right - 10 > obstacleRect.left &&
+            santaRect.top + 10 < obstacleRect.bottom &&
+            santaRect.bottom - 10 > obstacleRect.top
+          ) {
+            // Collision détectée
+            if (obstacle.type === "cactus") {
+              // Collision avec un cactus
+              alert("Game Over! Your Score : " + score);
+              setScore(0);
+              return []; // Réinitialiser la liste des obstacles
+            } else if (obstacle.type === "gift") {
+              // Collision avec un cadeau
+              setScore((prevScore) => prevScore + 1);
+              // Supprimer le cadeau du tableau
+              newObstacles.splice(i, 1);
+            }
           }
         }
-      }
+
+        // Ajouter un nouvel obstacle
+        if (Math.random() < 0.005) {
+          addObstacle();
+        }
+
+        return newObstacles;
+      });
     }, 10);
 
-    return () => {
-      clearInterval(isAlive);
-    };
-  }, [isGamePaused, score]);
+    return () => clearInterval(isAlive);
+  }, [isJumping, score]);
 
   useEffect(() => {
-    const dino = dinoRef.current;
-    const cactus = cactusRef.current;
-
-    if (isGamePaused) {
-      dino.style.animationPlayState = "paused";
-      cactus.style.animationPlayState = "paused";
-    } else {
-      dino.style.animationPlayState = "running";
-      cactus.style.animationPlayState = "running";
-    }
-
-    document.addEventListener("keydown", handleKeyPress);
-
+    document.addEventListener("keydown", jump);
+    document.addEventListener("keyup", endJump);
     return () => {
-      document.removeEventListener("keydown", handleKeyPress);
+      document.removeEventListener("keydown", jump);
+      document.removeEventListener("keyup", endJump);
     };
-  }, [isGamePaused]);
+  }, []);
+
+  useEffect(() => {
+    addObstacle();
+  }, []); // Ajouter un obstacle au démarrage
 
   return (
     <div className="game">
-      <div>
-        Score: {score} | {isGamePaused ? "Paused" : "Playing"}
-      </div>
-      <div id="dino" ref={dinoRef}></div>
-      <div id="cactus" ref={cactusRef}></div>
+      Score : {score}
+      <div
+        id="santa"
+        ref={santaRef}
+        className={isJumping ? "jump" : ""} // Ajouter la classe de saut si l'état de saut est activé
+      ></div>
+      {cacti.map((obstacle) => (
+        <div
+          key={obstacle.id}
+          className={obstacle.type}
+          ref={(ref) => (obstacle.ref = ref)}
+          style={{
+            left: obstacle.left || 0, // Utilisez 0 si obstacle.left n'est pas défini
+            animation: `move ${obstacle.animationDuration}s infinite linear`,
+          }}
+        ></div>
+      ))}
     </div>
   );
 }
