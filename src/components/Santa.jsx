@@ -2,24 +2,24 @@ import React, { useEffect, useRef, useState } from "react";
 import "./santa.css";
 
 function Santa() {
-  const dinoRef = useRef();
+  const santaRef = useRef();
   const cactusRef = useRef();
   const [score, setScore] = useState(0);
 
   const jump = () => {
-    if (!!dinoRef.current && dinoRef.current.classList != "jump") {
-      dinoRef.current.classList.add("jump");
+    if (!!santaRef.current && santaRef.current.classList != "jump") {
+      santaRef.current.classList.add("jump");
       setTimeout(function () {
-        dinoRef.current.classList.remove("jump");
+        santaRef.current.classList.remove("jump");
       }, 300);
     }
   };
 
   useEffect(() => {
     const isAlive = setInterval(function () {
-      // get current dino Y position
-      const dinoTop = parseInt(
-        getComputedStyle(dinoRef.current).getPropertyValue("top")
+      // get current santa Y position
+      const santaTop = parseInt(
+        getComputedStyle(santaRef.current).getPropertyValue("top")
       );
 
       // get current cactus X position
@@ -28,7 +28,7 @@ function Santa() {
       );
 
       // detect collision
-      if (cactusLeft < 30 && cactusLeft > 0 && dinoTop >= 150) {
+      if (cactusLeft < 30 && cactusLeft > 0 && santaTop >= 150) {
         // collision
         alert("Game Over! Your Score : " + score);
         setScore(0);
@@ -48,7 +48,7 @@ function Santa() {
   return (
     <div className="game">
       Score : {score}
-      <div id="dino" ref={dinoRef}></div>
+      <div id="santa" ref={santaRef}></div>
       <div id="cactus" ref={cactusRef}></div>
     </div>
   );
