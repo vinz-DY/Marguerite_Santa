@@ -1,100 +1,112 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./santa.css";
 
+import backgroundMusic from "../assets/All.mp3"; // Assurez-vous d'importer votre fichier audio correctement
+
 function Santa() {
   const santaRef = useRef();
-  const [cacti, setCacti] = useState([]);
+  const [chim, setchim] = useState([]);
   const [score, setScore] = useState(0);
-  
   const [isJumping, setIsJumping] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(new Audio(backgroundMusic));
+
 
   const jump = () => {
     if (!!santaRef.current && !santaRef.current.classList.contains("jump")) {
       santaRef.current.classList.add("jump");
-      setIsJumping(true); // Activer l'état de saut
-
-    }
-  };
-  // POUR JUMPER ET METTRE EN PAUSE
-  const handleKeyPress = (event) => {
-    if (event.key === "ArrowUp") {
-      jump();
-    } else if (event.key === " ") {
-      togglePause();
+      setIsJumping(true);
     }
   };
 
   const endJump = () => {
-    setIsJumping(false); // Désactiver l'état de saut
+    setIsJumping(false);
   };
 
   const addObstacle = () => {
-    const isCactus = Math.random() < 0.5; // 50% chance of being a cactus
-    const left = window.innerWidth; // Initial position
+    const ischimney = Math.random() < 0.5;
+    const left = window.innerWidth;
 
     const newObstacle = {
       id: new Date().getTime(),
-      type: isCactus ? "cactus" : "gift",
+      type: ischimney ? "chimney" : "gift",
       animationDuration: Math.random() * 2 + 2,
       left: left,
     };
 
-    setCacti((prevObstacles) => [...prevObstacles, newObstacle]);
+    setchim((prevObstacles) => [...prevObstacles, newObstacle]);
+  };
+
+  const startGame = () => {
+    setIsPlaying(true);
+    audioRef.current.play(); // Démarrer la musique
+  };
+
+  const stopGame = () => {
+    setIsPlaying(false);
+    audioRef.current.pause(); // Arrêter la musique
+    audioRef.current.currentTime = 0; // Remettre la musique au début
+    setchim([]); // Réinitialiser la liste des obstacles
+    setScore(0); // Réinitialiser le score
+  };
+
+  const startGame = () => {
+    setIsPlaying(true);
+  };
+
+  const stopGame = () => {
+    setIsPlaying(false);
+    setCacti([]); // Réinitialiser la liste des obstacles
+    setScore(0); // Réinitialiser le score
   };
 
   useEffect(() => {
-    const isAlive = setInterval(() => {
-      // get current santa Y position
-      const santaRect = santaRef.current.getBoundingClientRect();
+    let isAlive;
 
-      // Move obstacles
-      setCacti((prevObstacles) =>
-        prevObstacles.map((obstacle) => ({
-          ...obstacle,
-          left: obstacle.left - 2,
-        }))
-      );
+    if (isPlaying) {
+      isAlive = setInterval(() => {
+        const santaRect = santaRef.current.getBoundingClientRect();
 
-      // detect collision
-      setCacti((prevObstacles) => {
-        const newObstacles = [...prevObstacles];
+        setchim((prevObstacles) => {
 
-        for (let i = 0; i < newObstacles.length; i++) {
-          const obstacle = newObstacles[i];
-          const obstacleRect = obstacle.ref.getBoundingClientRect();
+          if (!isPlaying) return prevObstacles;
 
-          if (
-            santaRect.left +10 < obstacleRect.right &&
-            santaRect.right - 10 > obstacleRect.left &&
-            santaRect.top + 10 < obstacleRect.bottom &&
-            santaRect.bottom - 10 > obstacleRect.top
-          ) {
-            // Collision détectée
-            if (obstacle.type === "cactus") {
-              // Collision avec un cactus
-              alert("Game Over! Your Score : " + score);
-              setScore(0);
-              return []; // Réinitialiser la liste des obstacles
-            } else if (obstacle.type === "gift") {
-              // Collision avec un cadeau
-              setScore((prevScore) => prevScore + 1);
-              // Supprimer le cadeau du tableau
-              newObstacles.splice(i, 1);
+          const newObstacles = [...prevObstacles];
+
+          for (let i = 0; i < newObstacles.length; i++) {
+            const obstacle = newObstacles[i];
+            const obstacleRect = obstacle.ref.getBoundingClientRect();
+
+            if (
+              santaRect.left + 10 < obstacleRect.right &&
+              santaRect.right - 10 > obstacleRect.left &&
+              santaRect.top + 10 < obstacleRect.bottom &&
+              santaRect.bottom - 10 > obstacleRect.top
+            ) {
+
+              if (obstacle.type === "chimney") {
+                alert("Game Over! Your Score : " + score);
+                setScore(0);
+                setIsPlaying(false);
+                return [];
+              } else if (obstacle.type === "gift") {
+                setScore((prevScore) => prevScore + 1);
+                newObstacles.splice(i, 1);
+              }
             }
           }
-        }
 
-        // Ajouter un nouvel obstacle
-        if (Math.random() < 0.005) {
-          addObstacle();
-        }
+          if (Math.random() < 0.005) {
+            addObstacle();
+          }
 
-        return newObstacles;
-      });
-    }, 10);
+          return newObstacles;
+        });
+      }, 10);
+    }
 
     return () => clearInterval(isAlive);
-  }, [isJumping, score]);
+  }, [isJumping, isPlaying, score]);
 
   useEffect(() => {
     document.addEventListener("keydown", jump);
@@ -106,28 +118,35 @@ function Santa() {
   }, []);
 
   useEffect(() => {
-    addObstacle();
-  }, []); // Ajouter un obstacle au démarrage
+    if (isPlaying) {
+      addObstacle();
+    }
+  }, [isPlaying]);
 
   return (
     <div className="game">
       Score : {score}
-      <div
-        id="santa"
-        ref={santaRef}
-        className={isJumping ? "jump" : ""} // Ajouter la classe de saut si l'état de saut est activé
-      ></div>
-      {cacti.map((obstacle) => (
+      <div id="santa" ref={santaRef} className={isJumping ? "jump" : ""}></div>
+      {chim.map((obstacle) => (
+
         <div
           key={obstacle.id}
           className={obstacle.type}
           ref={(ref) => (obstacle.ref = ref)}
           style={{
-            left: obstacle.left || 0, // Utilisez 0 si obstacle.left n'est pas défini
+            left: obstacle.left || 0,
             animation: `move ${obstacle.animationDuration}s infinite linear`,
           }}
         ></div>
       ))}
+      <div className="buttonsCtn">
+        <button className="buttons" onClick={startGame}>
+          Start Game
+        </button>
+        <button className="buttons" onClick={stopGame}>
+          Stop Game
+        </button>
+      </div>
     </div>
   );
 }
