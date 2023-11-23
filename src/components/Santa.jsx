@@ -5,6 +5,7 @@ function Santa() {
   const santaRef = useRef();
   const [cacti, setCacti] = useState([]);
   const [score, setScore] = useState(0);
+  
   const [isJumping, setIsJumping] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
