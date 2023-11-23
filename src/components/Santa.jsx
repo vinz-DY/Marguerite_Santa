@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import "./santa.css";
 
 function Santa() {
-  const dinoRef = useRef();
+  const santaRef = useRef();
   const cactusRef = useRef();
   const [score, setScore] = useState(0);
   const [isGamePaused, setGamePaused] = useState(false);
 
   const jump = () => {
+
     if (
       !isGamePaused &&
       !!dinoRef.current &&
@@ -16,6 +17,7 @@ function Santa() {
       dinoRef.current.classList.add("jump");
       setTimeout(() => {
         dinoRef.current.classList.remove("jump");
+
       }, 300);
     }
   };
