@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./santa.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import backgroundMusic from "../assets/All.mp3"; // Assurez-vous d'importer votre fichier audio correctement
 
 function Santa() {
@@ -10,6 +12,28 @@ function Santa() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState("santa");
   const audioRef = useRef(new Audio(backgroundMusic));
+
+  const showToastMessage = () => {
+    toast.error(
+      <div className="gameOverContainer">
+        <div className="gameOverContainer-title">GAME OVER !</div>
+        <div className="gameOverContainer-detail">Votre score: {score}</div>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        limit: 1,
+        hideProgressBar: false,
+        newestOnTop: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnFocusLoss: false,
+        draggable: false,
+        pauseOnHover: true,
+        theme: "colored",
+      }
+    );
+  };
 
   const jump = () => {
     if (!!santaRef.current && !santaRef.current.classList.contains("jump")) {
@@ -23,7 +47,7 @@ function Santa() {
   };
 
   const addObstacle = () => {
-    const isChimney = Math.random() < 0.5;
+    const isChimney = Math.random() < 0.4;
     const left = window.innerWidth;
 
     const newObstacle = {
@@ -48,7 +72,7 @@ function Santa() {
     setChim([]); // Réinitialiser la liste des obstacles
     setScore(0); // Réinitialiser le score
   };
-
+  const [gameOver, setGameOver] = useState(false);
   useEffect(() => {
     let isAlive;
 
@@ -72,9 +96,8 @@ function Santa() {
               santaRect.bottom - 10 > obstacleRect.top
             ) {
               if (obstacle.type === "chimney") {
-                alert("Game Over! Your Score : " + score);
-                setScore(0);
                 setIsPlaying(false);
+                setGameOver(true);
                 return [];
               } else if (obstacle.type === "gift") {
                 setScore((prevScore) => prevScore + 1);
@@ -92,8 +115,15 @@ function Santa() {
       }, 10);
     }
 
+    if (gameOver === true) {
+      /* alert("Game Over! Your Score : " + score); */
+      showToastMessage();
+      setGameOver(false);
+      setScore(0);
+    }
+
     return () => clearInterval(isAlive);
-  }, [isJumping, isPlaying, score]);
+  }, [isJumping, isPlaying, score, gameOver]);
 
   useEffect(() => {
     document.addEventListener("keydown", jump);
@@ -111,55 +141,58 @@ function Santa() {
   }, [isPlaying]);
 
   return (
-    <div className="game">
-      Score : {score}
-      <div
-        id={selectedPlayer}
-        ref={santaRef}
-        className={isJumping ? "jump" : ""}
-      ></div>
-      {chim.map((obstacle) => (
+    <div>
+      <ToastContainer />
+      <div className="game">
+        Score : {score}
         <div
-          key={obstacle.id}
-          className={obstacle.type}
-          ref={(ref) => (obstacle.ref = ref)}
-          style={{
-            left: obstacle.left || 0,
-            animation: `move ${obstacle.animationDuration}s infinite linear`,
-          }}
+          id={selectedPlayer}
+          ref={santaRef}
+          className={isJumping ? "jump" : ""}
         ></div>
-      ))}
-      <div className="buttonsCtn">
-        <div className="player-selection">
-          <div className="choice">Choose your player:</div>
-          <div className="player-options">
-            <button
-              onClick={() => setSelectedPlayer("santa")}
-              className={selectedPlayer === "santa" ? "selected" : ""}
-            >
-              Santa
+        {chim.map((obstacle) => (
+          <div
+            key={obstacle.id}
+            className={obstacle.type}
+            ref={(ref) => (obstacle.ref = ref)}
+            style={{
+              left: obstacle.left || 0,
+              animation: `move ${obstacle.animationDuration}s infinite linear`,
+            }}
+          ></div>
+        ))}
+        <div className="buttonsCtn">
+          <div className="player-selection">
+            <div className="choice">Choose your player:</div>
+            <div className="player-options">
+              <button
+                onClick={() => setSelectedPlayer("santa")}
+                className={selectedPlayer === "santa" ? "selected" : ""}
+              >
+                Santa
+              </button>
+              <button
+                onClick={() => setSelectedPlayer("elf")}
+                className={selectedPlayer === "elf" ? "selected" : ""}
+              >
+                Elf
+              </button>
+              <button
+                onClick={() => setSelectedPlayer("marguerite")}
+                className={selectedPlayer === "marguerite" ? "selected" : ""}
+              >
+                Marguerite
+              </button>
+            </div>
+          </div>
+          <div>
+            <button className="buttons" onClick={startGame}>
+              Start Game
             </button>
-            <button
-              onClick={() => setSelectedPlayer("elf")}
-              className={selectedPlayer === "elf" ? "selected" : ""}
-            >
-              Elf
-            </button>
-            <button
-              onClick={() => setSelectedPlayer("marguerite")}
-              className={selectedPlayer === "marguerite" ? "selected" : ""}
-            >
-              Marguerite
+            <button className="buttons" onClick={stopGame}>
+              Stop Game
             </button>
           </div>
-        </div>
-        <div>
-          <button className="buttons" onClick={startGame}>
-            Start Game
-          </button>
-          <button className="buttons" onClick={stopGame}>
-            Stop Game
-          </button>
         </div>
       </div>
     </div>
