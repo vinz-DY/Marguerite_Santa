@@ -1,7 +1,7 @@
 body {
-    background-image: url("../assets/gift7.png");
-    background-size: 100%;
-    background-repeat: no-repeat;
+  background-image: url("../assets/gift7.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 .game {
   display: flex;
@@ -10,7 +10,7 @@ body {
   border: 1px solid black;
   margin-top: 3rem;
   background-image: url("../assets/decor1.jpg");
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 600;
 }
 
@@ -31,7 +31,6 @@ body {
   position: relative;
   top: 162px;
 }
-
 
 #santa {
   width: 50px;
@@ -88,9 +87,9 @@ body {
   animation: move 6s infinite linear;
 }
 
-.choice{
+.choice {
   font-weight: 600;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 @keyframes move {
@@ -103,11 +102,11 @@ body {
   }
 }
 
-.player-selection{
+.player-selection {
   display: flex;
   margin-left: 5rem;
 }
-.player-selection button{
+.player-selection button {
   border: solid 2px;
   border-radius: 0.3rem;
   margin-bottom: 100px;
@@ -142,3 +141,50 @@ body {
   border: solid 2px white;
 }
 
+.gameOverContainer {
+  height: 10rem;
+  background-color: #e74c3c;
+}
+.gameOverContainer-title {
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 2rem;
+  animation: myAnim 4s ease 0s 1 normal forwards;
+}
+
+@keyframes myAnim {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.gameOverContainer-detail {
+  color: white;
+  font-size: 2rem;
+  margin-top: 2rem;
+}
