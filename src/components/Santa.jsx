@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import "./santa.css";
 import backgroundMusic from "../assets/All.mp3"; // Assurez-vous d'importer votre fichier audio correctement
 
-import backgroundMusic from "../assets/All.mp3"; // Assurez-vous d'importer votre fichier audio correctement
-
 function Santa() {
   const santaRef = useRef();
   const [chim, setChim] = useState([]);
@@ -21,13 +19,13 @@ function Santa() {
   };
 
   const endJump = () => {
-    setIsJumping(false); // Désactiver l'état de saut
+    setIsJumping(false);
   };
 
   const addObstacle = () => {
-    const ischimney = Math.random() < 0.5; /*chimney+-*/
+    const isChimney = Math.random() < 0.5;
     const left = window.innerWidth;
-    
+
     const newObstacle = {
       id: new Date().getTime(),
       type: isChimney ? "chimney" : "gift",
@@ -40,12 +38,11 @@ function Santa() {
 
   const startGame = () => {
     setIsPlaying(true);
-    audioRef.current.play(); // play music
+    audioRef.current.play(); // Démarrer la musique
   };
 
   const stopGame = () => {
     setIsPlaying(false);
-
     audioRef.current.pause(); // Arrêter la musique
     audioRef.current.currentTime = 0; // Remettre la musique au début
     setChim([]); // Réinitialiser la liste des obstacles
@@ -59,8 +56,7 @@ function Santa() {
       isAlive = setInterval(() => {
         const santaRect = santaRef.current.getBoundingClientRect();
 
-          setchim((prevObstacles) => {
-            if (!isPlaying) return;
+        setChim((prevObstacles) => {
           if (!isPlaying) return prevObstacles;
 
           const newObstacles = [...prevObstacles];
@@ -123,7 +119,6 @@ function Santa() {
         className={isJumping ? "jump" : ""}
       ></div>
       {chim.map((obstacle) => (
-
         <div
           key={obstacle.id}
           className={obstacle.type}
@@ -135,44 +130,40 @@ function Santa() {
         ></div>
       ))}
       <div className="buttonsCtn">
-      <div className="player-selection">
-        <div>Choose your player:</div>
-        <div className="player-options">
-          <button
-            onClick={() => setSelectedPlayer("santa")}
-            className  ={selectedPlayer === "santa" ?"selected" : ""} 
-          >
-            Santa
-          </button>
-          <button
-            onClick={() => setSelectedPlayer("elf")}
-            className={selectedPlayer === "elf" ? "selected" : ""}
-          >
-            Elf
-          </button>
-          <button
-            onClick={() => setSelectedPlayer("marguerite")}
-            className={selectedPlayer === "marguerite" ? "selected" : ""}
-          >
-            marguerite
-          </button>
-
-
+        <div className="player-selection">
+          <div className="choice">Choose your player:</div>
+          <div className="player-options">
+            <button
+              onClick={() => setSelectedPlayer("santa")}
+              className={selectedPlayer === "santa" ? "selected" : ""}
+            >
+              Santa
+            </button>
+            <button
+              onClick={() => setSelectedPlayer("elf")}
+              className={selectedPlayer === "elf" ? "selected" : ""}
+            >
+              Elf
+            </button>
+            <button
+              onClick={() => setSelectedPlayer("marguerite")}
+              className={selectedPlayer === "marguerite" ? "selected" : ""}
+            >
+              Marguerite
+            </button>
+          </div>
         </div>
-      </div>
         <div>
-        <button className="buttons" onClick={startGame}>
-          Start Game
-        </button>
-        <button className="buttons" onClick={stopGame}>
-          Stop Game
-        </button>
+          <button className="buttons" onClick={startGame}>
+            Start Game
+          </button>
+          <button className="buttons" onClick={stopGame}>
+            Stop Game
+          </button>
         </div>
       </div>
-      
     </div>
   );
 }
 
 export default Santa;
-

@@ -1,130 +1,143 @@
 body {
-    background-image: url("../assets/gift7.png");
-    background-size: 100%;
-    background-repeat: no-repeat;
+  background-image: url("../assets/gift7.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 .game {
-  display: flex;
-  width: 100%;
-  height: 225px;
-  border: 1px solid black;
-  margin-top: 3rem;
-  background-image: url("../assets/decor1.jpg");
+display: flex;
+width: 100%;
+height: 225px;
+border: 1px solid black;
+margin-top: 3rem;
+background-image: url("../assets/decor1.jpg");
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+font-weight: 600;
 }
 
 #elf {
-  width: 50px;
-  height: 50px;
-  background-image: url("../assets/elfe.png"); /* Assurez-vous que le chemin est correct */
-  background-size: 50px 50px;
-  position: relative;
-  top: 162px;
+width: 50px;
+height: 50px;
+background-image: url("../assets/elfe.png"); /* Assurez-vous que le chemin est correct */
+background-size: 50px 50px;
+position: relative;
+top: 162px;
 }
 
 #marguerite {
-  width: 50px;
-  height: 50px;
-  background-image: url("../assets/cow.gif"); /* Assurez-vous que le chemin est correct */
-  background-size: 50px 50px;
-  position: relative;
-  top: 162px;
+width: 50px;
+height: 50px;
+background-image: url("../assets/cow.gif"); /* Assurez-vous que le chemin est correct */
+background-size: 50px 50px;
+position: relative;
+top: 162px;
 }
 
 
 #santa {
-  width: 50px;
-  height: 50px;
-  background-image: url("../assets/Santa-Pixel.png");
-  background-size: 50px 50px;
-  position: relative;
-  top: 162px;
+width: 50px;
+height: 50px;
+background-image: url("../assets/Santa-Pixel.png");
+background-size: 50px 50px;
+position: relative;
+top: 162px;
 }
 
 .jump {
-  animation: jump 2s linear;
+animation: jump 2s linear;
 }
 
 @keyframes jump {
-  0% {
-    top: 100px;
-  }
+0% {
+  top: 100px;
+}
 
-  20% {
-    top: 50px;
-  }
+20% {
+  top: 50px;
+}
 
-  40% {
-    top: 10px;
-  }
+40% {
+  top: 10px;
+}
 
-  80% {
-    top: 20px;
-  }
+80% {
+  top: 20px;
+}
 
-  100% {
-    top: 100px;
-  }
+100% {
+  top: 100px;
+}
 }
 
 .chimney {
-  width: 20px;
-  height: 40px;
-  position: fixed;
-  top: 228px;
-  background-image: url("../assets/chimney.jpg");
-  background-size: 20px 40px;
-  animation: move 8s linear;
+width: 20px;
+height: 40px;
+position: fixed;
+top: 228px;
+background-image: url("../assets/chimney.jpg");
+background-size: 20px 40px;
+animation: move 8s linear;
 }
 
 .gift {
-  width: 20px;
-  height: 20px;
-  position: fixed;
-  top: 250px;
-  background-image: url("../assets/Gift1.png");
-  background-size: 20px 20px;
-  animation: move 6s infinite linear;
+width: 20px;
+height: 20px;
+position: fixed;
+top: 250px;
+background-image: url("../assets/Gift1.png");
+background-size: 20px 20px;
+animation: move 6s infinite linear;
+}
+
+.choice{
+font-weight: 600;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 @keyframes move {
-  0% {
-    left: 90%;
-  }
+0% {
+  left: 90%;
+}
 
-  100% {
-    left: 0;
-  }
+100% {
+  left: 0;
+}
 }
 
 .player-selection{
-  display: flex;
-  margin-left: 5rem;
+display: flex;
+margin-left: 5rem;
 }
 .player-selection button{
-  border: solid 2px;
-  border-radius: 0.3rem;
-  margin-bottom: 100px;
-  cursor: pointer;
+border: solid 2px;
+border-radius: 0.3rem;
+margin-bottom: 100px;
+cursor: pointer;
+margin-left: 0.2rem;
+}
+
+.player-selection button:hover {
+color: white;
+background-color: red;
+border: solid 2px white;
 }
 
 .buttonsCtn {
-  margin-top: 0.2rem;
-  justify-content: center;
-  display: flex;
-  flex-direction: row-reverse;
+margin-top: 0.2rem;
+justify-content: center;
+display: flex;
+flex-direction: row-reverse;
 }
 
 .buttons {
-  border: solid 2px;
-  border-radius: 0.3rem;
-  margin-bottom: 100px;
-  cursor: pointer;
-  margin-left: 0.5rem;
+border: solid 2px;
+border-radius: 0.3rem;
+margin-bottom: 100px;
+cursor: pointer;
+margin-left: 0.5rem;
 }
 
 .buttons:hover {
-  color: white;
-  background-color: red;
-  border: solid 2px white;
+color: white;
+background-color: red;
+border: solid 2px white;
 }
-
