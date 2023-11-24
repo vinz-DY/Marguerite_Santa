@@ -7,6 +7,25 @@
   background-image: url("../assets/decor1.jpg");
 }
 
+#elf {
+  width: 50px;
+  height: 50px;
+  background-image: url("../assets/elfe.png"); /* Assurez-vous que le chemin est correct */
+  background-size: 50px 50px;
+  position: relative;
+  top: 162px;
+}
+
+#marguerite {
+  width: 50px;
+  height: 50px;
+  background-image: url("../assets/cow.gif"); /* Assurez-vous que le chemin est correct */
+  background-size: 50px 50px;
+  position: relative;
+  top: 162px;
+}
+
+
 #santa {
   width: 50px;
   height: 50px;
@@ -71,9 +90,22 @@
     left: 0;
   }
 }
+.player-selection{
+  display: flex;
+  margin-left: 5rem;
+}
+.player-selection button{
+  border: solid 2px;
+  border-radius: 0.3rem;
+  margin-bottom: 100px;
+  cursor: pointer;
+}
+
 .buttonsCtn {
   margin-top: 0.2rem;
   justify-content: center;
+  display: flex;
+  flex-direction: row-reverse;
 }
 .buttons {
   border: solid 2px;

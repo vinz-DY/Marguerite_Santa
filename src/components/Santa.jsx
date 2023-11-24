@@ -5,10 +5,11 @@ import backgroundMusic from "../assets/All.mp3"; // Assurez-vous d'importer votr
 
 function Santa() {
   const santaRef = useRef();
-  const [chim, setchim] = useState([]);
+  const [chim, setChim] = useState([]);
   const [score, setScore] = useState(0);
   const [isJumping, setIsJumping] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState("santa");
   const audioRef = useRef(new Audio(backgroundMusic));
 
   const jump = () => {
@@ -23,17 +24,17 @@ function Santa() {
   };
 
   const addObstacle = () => {
-    const ischimney = Math.random() < 0.5;
+    const isChimney = Math.random() < 0.5;
     const left = window.innerWidth;
 
     const newObstacle = {
       id: new Date().getTime(),
-      type: ischimney ? "chimney" : "gift",
+      type: isChimney ? "chimney" : "gift",
       animationDuration: Math.random() * 2 + 2,
       left: left,
     };
 
-    setchim((prevObstacles) => [...prevObstacles, newObstacle]);
+    setChim((prevObstacles) => [...prevObstacles, newObstacle]);
   };
 
   const startGame = () => {
@@ -45,7 +46,7 @@ function Santa() {
     setIsPlaying(false);
     audioRef.current.pause(); // Arrêter la musique
     audioRef.current.currentTime = 0; // Remettre la musique au début
-    setchim([]); // Réinitialiser la liste des obstacles
+    setChim([]); // Réinitialiser la liste des obstacles
     setScore(0); // Réinitialiser le score
   };
 
@@ -56,7 +57,7 @@ function Santa() {
       isAlive = setInterval(() => {
         const santaRect = santaRef.current.getBoundingClientRect();
 
-        setchim((prevObstacles) => {
+        setChim((prevObstacles) => {
           if (!isPlaying) return prevObstacles;
 
           const newObstacles = [...prevObstacles];
@@ -113,7 +114,11 @@ function Santa() {
   return (
     <div className="game">
       Score : {score}
-      <div id="santa" ref={santaRef} className={isJumping ? "jump" : ""}></div>
+      <div
+        id={selectedPlayer}
+        ref={santaRef}
+        className={isJumping ? "jump" : ""}
+      ></div>
       {chim.map((obstacle) => (
         <div
           key={obstacle.id}
@@ -126,13 +131,41 @@ function Santa() {
         ></div>
       ))}
       <div className="buttonsCtn">
+      <div className="player-selection">
+        <div>Choose your player:</div>
+        <div className="player-options">
+          <button
+            onClick={() => setSelectedPlayer("santa")}
+            className  ={selectedPlayer === "santa" ?"selected" : ""} 
+          >
+            Santa
+          </button>
+          <button
+            onClick={() => setSelectedPlayer("elf")}
+            className={selectedPlayer === "elf" ? "selected" : ""}
+          >
+            Elf
+          </button>
+          <button
+            onClick={() => setSelectedPlayer("marguerite")}
+            className={selectedPlayer === "marguerite" ? "selected" : ""}
+          >
+            marguerite
+          </button>
+
+
+        </div>
+      </div>
+        <div>
         <button className="buttons" onClick={startGame}>
           Start Game
         </button>
         <button className="buttons" onClick={stopGame}>
           Stop Game
         </button>
+        </div>
       </div>
+      
     </div>
   );
 }
