@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./santa.css";
-import backgroundMusic from "../assets/All.mp3";
+import backgroundMusic from "../assets/All.mp3"; // Assurez-vous d'importer votre fichier audio correctement
 
 function Santa() {
   const santaRef = useRef();
@@ -18,7 +18,7 @@ function Santa() {
   };
 
   const endJump = () => {
-    setIsJumping(false);
+    setIsJumping(false); // Désactiver l'état de saut
   };
 
   const addObstacle = () => {
@@ -55,7 +55,8 @@ function Santa() {
       isAlive = setInterval(() => {
         const santaRect = santaRef.current.getBoundingClientRect();
 
-        setchim((prevObstacles) => {
+          setchim((prevObstacles) => {
+            if (!isPlaying) return;
           if (!isPlaying) return prevObstacles;
 
           const newObstacles = [...prevObstacles];
