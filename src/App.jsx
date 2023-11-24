@@ -1,10 +1,12 @@
 import "./App.css";
 import Santa from "./components/Santa";
+import Popup from "./components/popup";
 
 function App() {
   return (
     <div className="App">
-    <Santa/>
+      <Popup />
+      <Santa />
     </div>
   );
 }
