@@ -28,5 +28,16 @@
 }
 
 .affichbutton {
-  z-index: 1;
+  background-color: chartreuse;
+  z-index: 999;
+  position: absolute;
+  top: 0;
+}
+
+.text {
+  color:chartreuse;
+  font-size: 25rem;
+
+  margin-top: 10rem;
+  font-weight: bolder;
 }
