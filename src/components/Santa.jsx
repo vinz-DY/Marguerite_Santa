@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import "./santa.css";
 import backgroundMusic from "../assets/All.mp3"; // Assurez-vous d'importer votre fichier audio correctement
 
+import backgroundMusic from "../assets/All.mp3"; // Assurez-vous d'importer votre fichier audio correctement
+
 function Santa() {
   const santaRef = useRef();
   const [chim, setchim] = useState([]);
@@ -23,6 +25,7 @@ function Santa() {
 
   const addObstacle = () => {
     const ischimney = Math.random() < 0.5; /*chimney+-*/
+
     const left = window.innerWidth;
 
     const newObstacle = {
@@ -54,6 +57,7 @@ function Santa() {
     if (isPlaying) {
       isAlive = setInterval(() => {
         const santaRect = santaRef.current.getBoundingClientRect();
+
 
           setchim((prevObstacles) => {
             if (!isPlaying) return;
@@ -115,6 +119,7 @@ function Santa() {
       Score : {score}
       <div id="santa" ref={santaRef} className={isJumping ? "jump" : ""}></div>
       {chim.map((obstacle) => (
+
         <div
           key={obstacle.id}
           className={obstacle.type}
@@ -138,3 +143,4 @@ function Santa() {
 }
 
 export default Santa;
+

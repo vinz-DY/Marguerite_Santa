@@ -76,10 +76,12 @@ body {
     left: 0;
   }
 }
+
 .buttonsCtn {
   margin-top: 0.2rem;
   justify-content: center;
 }
+
 .buttons {
   border: solid 2px;
   border-radius: 0.3rem;
@@ -87,8 +89,10 @@ body {
   cursor: pointer;
   margin-left: 0.5rem;
 }
+
 .buttons:hover {
   color: white;
   background-color: red;
   border: solid 2px white;
 }
+
