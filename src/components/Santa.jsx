@@ -131,7 +131,7 @@ function Santa() {
       ))}
       <div className="buttonsCtn">
         <div className="player-selection">
-          <div>Choose your player:</div>
+          <div className="choice">Choose your player:</div>
           <div className="player-options">
             <button
               onClick={() => setSelectedPlayer("santa")}
