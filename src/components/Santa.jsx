@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./santa.css";
+import backgroundMusic from "../assets/All.mp3"; // Assurez-vous d'importer votre fichier audio correctement
 
 import backgroundMusic from "../assets/All.mp3"; // Assurez-vous d'importer votre fichier audio correctement
 
@@ -20,13 +21,13 @@ function Santa() {
   };
 
   const endJump = () => {
-    setIsJumping(false);
+    setIsJumping(false); // Désactiver l'état de saut
   };
 
   const addObstacle = () => {
-    const isChimney = Math.random() < 0.5;
+    const ischimney = Math.random() < 0.5; /*chimney+-*/
     const left = window.innerWidth;
-
+    
     const newObstacle = {
       id: new Date().getTime(),
       type: isChimney ? "chimney" : "gift",
@@ -39,11 +40,12 @@ function Santa() {
 
   const startGame = () => {
     setIsPlaying(true);
-    audioRef.current.play(); // Démarrer la musique
+    audioRef.current.play(); // play music
   };
 
   const stopGame = () => {
     setIsPlaying(false);
+
     audioRef.current.pause(); // Arrêter la musique
     audioRef.current.currentTime = 0; // Remettre la musique au début
     setChim([]); // Réinitialiser la liste des obstacles
@@ -57,7 +59,8 @@ function Santa() {
       isAlive = setInterval(() => {
         const santaRect = santaRef.current.getBoundingClientRect();
 
-        setChim((prevObstacles) => {
+          setchim((prevObstacles) => {
+            if (!isPlaying) return;
           if (!isPlaying) return prevObstacles;
 
           const newObstacles = [...prevObstacles];
@@ -120,6 +123,7 @@ function Santa() {
         className={isJumping ? "jump" : ""}
       ></div>
       {chim.map((obstacle) => (
+
         <div
           key={obstacle.id}
           className={obstacle.type}
@@ -171,3 +175,4 @@ function Santa() {
 }
 
 export default Santa;
+
