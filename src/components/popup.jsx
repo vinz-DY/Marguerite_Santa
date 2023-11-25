@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./Popup.css"; // Assurez-vous d'avoir un fichier de style (Popup.css) pour styliser votre pop-up.
+import "./popup.css"; // Assurez-vous d'avoir un fichier de style (Popup.css) pour styliser votre pop-up.
 import Perestyle from "../assets/Perestyle.png";
 
 const Popup = () => {
