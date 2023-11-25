@@ -41,7 +41,7 @@ const Popup = () => {
         </div>
       )}
       <button className="affichbutton" onClick={togglePopup}>
-        Cliques ici tu verras ton Père
+        I am your Daddy! Clic here!
       </button>
     </div>
   );
